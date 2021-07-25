@@ -53,6 +53,24 @@
   - `label: .asciz "text"` @ means char label[] = "text";
   - `label: .byte 'A', 0x41, 0` @ means char label[] = {'A', 'A', 0};
   - `label: .skip 1`, skip 1 byte
+ 
+## Function call:
+-  `bl function_name`
+  - bl = branch with link  
+  - save the memory address of the following instruction (after the func call) into lr
+- r0 = func(r0, r1, r2, r3)
+  - each param <= 4 bytes; if > 4 byte ==> pass a pointer to the param 
+
+## Return after func call:
+- `bx lr`
+  - bx = branch and exchange 
+
+## Save/Restore preserved regs:
+- `push {reg list}`
+  - push from high to low memory
+- `pop {reg list}`
+  - pop from low to high memory  
+
 ## Machine Code
 - encoded in 0s, 1s
 
