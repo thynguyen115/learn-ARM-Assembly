@@ -22,8 +22,9 @@
   - .section .rodata: global initialized read only memeory (names, sizes, alignment)
   - .text: function export, program entry
 
+---------------------------------------------------------------
 ## Label:
-- Tells the memory address
+- Tell the memory address
 - Put anywhere in source file (code or data segments)
 - Must not be numeric
 - Case sensitive
@@ -39,6 +40,7 @@
 
 ## .align
 - slide 5, last pg
+- Note: 1 byte = 8 bits, half-word = 2 bytes = 16 bits, word = 4 bytes = 32 bits
 - `.align 1`
   - for 2^1 = 2 bytes
   - ex: `label: .hword value` @ hword = half-word, 2-byte short int, `short label = value`;
@@ -83,6 +85,37 @@
     - Ex: #regs saved = 9 ==> num = 9 * 4 - 4 = 32 
 - Beginning: `add fp, sp, FP_OFFSET`   @ fp = sp + FP_OFFSET
 - At end: `sub sp, fp, FP_OFFSET`      @ sp = fp - FP_OFFSET
+
+## Branching:
+- Do not branch to a func
+- `b label`
+- Singed: `beq` (brached if ==), `bne` (!=), `bgt` (>), `bge` (>=), `blt` (<), `ble` (<=)
+- Unsigned: `beq` (branched if ==), `bne` (!=), `bhi` (>), `bhs` (>=), `blo` (<), `bls` (<=)
+- Nearest label branches: "xb" or "xf" (slide 6, pg. 26)
+  - x = a number (~label)
+  - b = backward (preceding the branch instruction) 
+  - f = forward (following the branch instruction)
+  - Ex: `1f`: go to the nearest label "1" after the instruction that uses it
+  - Ex: `1b`: go back to the nearest label "1" before the instruction that uses it
+  - should not reuse the number ("x") to avoid confusion
+  
+## Compare:
+- `cmp reg, #imm8` @ #imm8 is a const in [-256, 255]; ex: `cmp r3, 0`
+- `cmp reg1, reg2`; ex: `cmp r3, r4`
+
+## Load/Store instructions:
+- `ldr dest, source`
+  - Note: source could be [Rbase, {,#+/- imm12}], where #imm12:= const in [-2048, 2047] 
+  -  `ldr r1, =label`     @ x = &label
+  -  `ldr r1, [fp, -4]`   @ x = * (fp - 4 bytes)
+  -  `ldr r1, =label+4`   @ x = &(label) + 4 bytes
+- `str source, dest`
+-------------------------------------------------------------------
+## Flags:
+- N (negative; MSB == '1')
+- Z (zero result)
+- C (carry out from the shifter is '1'; addition result > 2^32; subtraction result ? 0)
+- V (overflow caused by instruction)
 
 ## Machine Code
 - encoded in 0s, 1s
