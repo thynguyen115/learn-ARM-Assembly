@@ -104,12 +104,18 @@
 - `cmp reg1, reg2`; ex: `cmp r3, r4`
 
 ## Load/Store instructions:
-- `ldr dest, source`
-  - Note: source could be [Rbase, {,#+/- imm12}], where #imm12:= const in [-2048, 2047] 
-  -  `ldr r1, =label`     @ x = &label
-  -  `ldr r1, [fp, -4]`   @ x = * (fp - 4 bytes)
-  -  `ldr r1, =label+4`   @ x = &(label) + 4 bytes
-- `str source, dest`
+- `ldr dest, source` (slide 6, pg. 34)
+  - Note: source could be [Rbase{,#+/- imm12}], where #imm12:= const in [-2048, 2047] 
+    -  `ldr r1, =label`     @ x = &label
+    -  `ldr r1, [fp, -4]`   @ x = * (fp - 4 bytes)
+    -  `ldr r1, =label+4`   @ x = &(label) + 4 bytes
+    -  `ldr r1, [r0, r2]`   @ x = * (r0 + r2)
+  - More: `ldrb` (load a byte/char (by default, char in ARM is unsigned), `ldrh` (load a half-word = 16 bits), `ldr` (load a word = 32 bits) 
+- `str source, dest` (slide 6, pg. 35)
+    -  `str r1, =label`     @ * label = r1
+    -  `str r1, [fp, -4]`   @ * (fp - 4 bytes) = r1
+    -  `str r1, =label+4`   @ x = &(label + 4 bytes) = r1
+    -  `str r1, [r0, r2]`   @ * (r0 + r2) = r1
 -------------------------------------------------------------------
 ## Flags:
 - N (negative; MSB == '1')
