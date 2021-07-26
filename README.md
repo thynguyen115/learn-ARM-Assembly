@@ -110,12 +110,18 @@
     -  `ldr r1, [fp, -4]`   @ x = * (fp - 4 bytes)
     -  `ldr r1, =label+4`   @ x = &(label) + 4 bytes
     -  `ldr r1, [r0, r2]`   @ x = * (r0 + r2)
+    -  `ldr r3, [r1, 4]`    @ x = *(y+1)
   - More: `ldrb` (load a byte/char (by default, char in ARM is unsigned), `ldrh` (load a half-word = 16 bits), `ldr` (load a word = 32 bits) 
 - `str source, dest` (slide 6, pg. 35)
     -  `str r1, =label`     @ * label = r1
     -  `str r1, [fp, -4]`   @ * (fp - 4 bytes) = r1
     -  `str r1, =label+4`   @ x = &(label + 4 bytes) = r1
     -  `str r1, [r0, r2]`   @ * (r0 + r2) = r1
+
+## Global variables vs local variables:
+- slide 6, pg. 48
+- global: defined right before .section .rodata
+- local: use "mov"
 -------------------------------------------------------------------
 ## Flags:
 - N (negative; MSB == '1')
