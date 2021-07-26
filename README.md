@@ -67,9 +67,22 @@
 
 ## Save/Restore preserved regs:
 - `push {reg list}`
-  - push from high to low memory
+  - push from high to low memory (i.e. if `push {r4-r8, fp, lr}`, then r4 is at lower memory than lr
 - `pop {reg list}`
-  - pop from low to high memory  
+  - pop from low to high memory
+- Pop and push lists should have the same increasing order (r_i then fp, lr at last)
+- Top of stack: push -(#regs * 4); pop +(#regs * 4)
+- len(reg list) % 2 == 0 (for now)
+
+## FP_OFFSET:
+- locate fp from sp
+  -  (1) __set__ fp at bottom of the stack frame so we have a fixed point to later locate stack data
+  -  (2) __restore__ sp to the address where we do push{} so that regs will be restored in the correct values
+- `.equ FP_OFFSET, num`
+  - Where "num" = #regs saved * 4 - 4 = (#regs saved - 1) * 4 (b/c we don't include lr)
+    - Ex: #regs saved = 9 ==> num = 9 * 4 - 4 = 32 
+- Beginning: `add fp, sp, FP_OFFSET`   @ fp = sp + FP_OFFSET
+- At end: `sub sp, fp, FP_OFFSET`      @ sp = fp - FP_OFFSET
 
 ## Machine Code
 - encoded in 0s, 1s
