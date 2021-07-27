@@ -39,7 +39,7 @@
 - Ex: .align = aligns data/code to some specific memory boundary 
 
 ## .align
-- slide 5, last pg
+- slide 5, last pg; slide 7, pg. 45
 - Note: 1 byte = 8 bits, half-word = 2 bytes = 16 bits, word = 4 bytes = 32 bits
 - `.align 1`
   - for 2^1 = 2 bytes
@@ -55,7 +55,15 @@
   - `label: .asciz "text"` @ means char label[] = "text";
   - `label: .byte 'A', 0x41, 0` @ means char label[] = {'A', 'A', 0};
   - `label: .skip 1`, skip 1 byte
- 
+- sizeof(short) = 2 ==> str*h*; sizeof(int) = 4 ==> str;
+- short has 2 bytes, but short * is 4 bytes
+- pointer is always 4 bytes
+- char 1 byte ==> str*b* ; double ==> str*d* (see alignment review on slide 7)
+- so always enters a func 8-byte (double word) aligned
+
+## Build Struct:
+- follow struct fields to build frame, but memory is from low to high
+
 ## Function call:
 -  `bl function_name`
   - bl = branch with link  
@@ -76,6 +84,12 @@
 - Top of stack: push -(#regs * 4); pop +(#regs * 4)
 - len(reg list) % 2 == 0 (for now)
 
+## When to use preserved regs:
+- (1) want to retain some values (like value of a param) after function calls
+- (2) need more than r0-r3
+- Standard of using preserved regs:
+  - Save/Restore along w/. {fp, lr} as part of stack frame creation/teardown 
+
 ## FP_OFFSET:
 - locate fp from sp
   -  (1) __set__ fp at bottom of the stack frame so we have a fixed point to later locate stack data
@@ -85,6 +99,7 @@
     - Ex: #regs saved = 9 ==> num = 9 * 4 - 4 = 32 
 - Beginning: `add fp, sp, FP_OFFSET`   @ fp = sp + FP_OFFSET
 - At end: `sub sp, fp, FP_OFFSET`      @ sp = fp - FP_OFFSET
+- picture of offset (slide 7, pg. 42)
 
 ## Branching:
 - Do not branch to a func
@@ -122,6 +137,9 @@
 - slide 6, pg. 48
 - global: defined right before .section .rodata
 - local: use "mov"
+
+## Recursive
+- slide 7, pg. 38
 -------------------------------------------------------------------
 ## Flags:
 - N (negative; MSB == '1')
